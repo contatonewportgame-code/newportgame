@@ -56,6 +56,58 @@ function Home() {
   </section></main></>;
 }
 
+function SpellcasterStory() {
+  return (
+    <section className="game-story" aria-labelledby="spellcaster-story-title">
+      <div className="game-story-heading">
+        <div className="eyebrow"><span className="eyebrow-line" /> HISTÓRIA E CONTEXTO</div>
+        <h2 id="spellcaster-story-title">A história por trás de <em>SpellCaster</em></h2>
+        <p>
+          SpellCaster é a releitura ocidental de Kujaku Ou, aventura lançada no Japão para o Sega Mark III.
+          Para chegar a outro público, personagens e referências foram transformados: Kujaku, monge exorcista
+          ligado ao universo espiritual japonês, tornou-se Kane; a mitologia original deu lugar a uma fantasia
+          mais familiar ao público ocidental.
+        </p>
+      </div>
+      <div className="game-story-grid">
+        <article className="game-story-main">
+          <h3>Uma adaptação com identidade própria</h3>
+          <p>
+            Essa mudança também aparece no tom. Em comparação com a narrativa mais poética e culturalmente
+            enraizada de Kujaku Ou, SpellCaster aposta em diálogos mais curtos, ritmo direto e uma fantasia de
+            leitura imediata. É uma adaptação de sua época — não uma versão que invalida a outra.
+          </p>
+          <p>
+            SpellCaster conquistou seu próprio lugar entre os clássicos do Master System. A tradução Newportgame
+            traz essa experiência para o português brasileiro, preservando a identidade da versão ocidental e
+            disponibilizando o patch separadamente da ROM comercial.
+          </p>
+        </article>
+        <aside className="game-story-aside">
+          <span>DUAS PERSPECTIVAS</span>
+          <p>
+            SpellCaster apresenta a adaptação ocidental, com fantasia e diálogos diretos. Kujaku Ou remete às
+            referências japonesas e às raízes místicas da obra. Conhecer uma versão ajuda a entender a outra.
+          </p>
+          <Link href="/jogos/kujaku-ou">Conheça Kujaku Ou <ArrowUpRight size={14} /></Link>
+        </aside>
+      </div>
+      <div className="game-story-cards">
+        <article>
+          <span>TRADUÇÃO</span>
+          <b>Uma aventura em português</b>
+          <p>Projeto completo da Newportgame para jogar SpellCaster em português do Brasil. O patch disponível nesta página é a versão ZIP 1.0.</p>
+        </article>
+        <article>
+          <span>PRESERVAÇÃO</span>
+          <b>Patch, não ROM</b>
+          <p>O download contém apenas os arquivos de tradução. A ROM comercial original não acompanha o patch.</p>
+        </article>
+      </div>
+    </section>
+  );
+}
+
 function Detail({ slug }: { slug: string }) {
   const project = projects.find((p) => p.slug === slug);
   if (!project) return <NotFound />;
@@ -92,7 +144,7 @@ function Detail({ slug }: { slug: string }) {
         )}
         <Link className="text-link" href={`/jogos/${project.slug === 'spellcaster' ? 'kujaku-ou' : 'spellcaster'}`}>Conheça {related} <ArrowRight size={15} /></Link>
       </div>
-      {project.slug === 'kujaku-ou' && <div className="related-note"><span>NOTA DE CONTEXTO</span><p>SpellCaster é identificado na proposta como o título ocidental relacionado a Kujaku Ou.</p><Link href="/jogos/spellcaster">Ver projeto SpellCaster <ArrowUpRight size={14} /></Link></div>}</div></div><div className="detail-bottom"><Link href="/"><ArrowLeft size={15} /> Voltar ao catálogo</Link><span>NEWPORTGAME · ARQUIVO DE PRESERVAÇÃO</span></div></main><Footer /></>;
+      {project.slug === 'kujaku-ou' && <div className="related-note"><span>NOTA DE CONTEXTO</span><p>SpellCaster é identificado na proposta como o título ocidental relacionado a Kujaku Ou.</p><Link href="/jogos/spellcaster">Ver projeto SpellCaster <ArrowUpRight size={14} /></Link></div>}</div></div>{isSpellcaster && <SpellcasterStory />}<div className="detail-bottom"><Link href="/"><ArrowLeft size={15} /> Voltar ao catálogo</Link><span>NEWPORTGAME · ARQUIVO DE PRESERVAÇÃO</span></div></main><Footer /></>;
 }
 
 function Footer() {
