@@ -38,10 +38,6 @@ const clerkPublishableKey = publishableKeyFromHost(
 );
 const clerkProxyUrl = import.meta.env.VITE_CLERK_PROXY_URL;
 
-if (!clerkPublishableKey) {
-  throw new Error('Missing VITE_CLERK_PUBLISHABLE_KEY for Google sign-in.');
-}
-
 type Project = { slug: string; title: string; platform: string; kind: string; status: string; summary: string; subtitle: string; accent: string; monogram: string; translator: string; authorNotes?: string; };
 const projects: Project[] = [
   { slug: 'spellcaster', title: 'SpellCaster', platform: 'Master System', kind: 'Tradução PT-BR', status: 'Completo', summary: 'Uma tradução oficial Newportgame para redescobrir este clássico no seu idioma.', subtitle: 'RPG de ação e aventura do Master System: Kane investiga ataques a templos e enfrenta criaturas usando magia.', accent: 'gold', monogram: 'SC', translator: 'Newportgame', authorNotes: 'Cristiano Mariano relata que desenvolveu a tradução em um notebook antigo. O projeto Newportgame combina esse trabalho de localização com a restauração técnica do clássico para o público brasileiro.' },
@@ -116,6 +112,38 @@ function Brand() {
 }
 
 function HeaderActions() {
+  if (!clerkPublishableKey) {
+    return <HeaderActionsWithoutAuth />;
+  }
+
+  return <AuthenticatedHeaderActions />;
+}
+
+function HeaderActionsWithoutAuth() {
+  return (
+    <nav className="header-actions" aria-label="Acesso e contribuição">
+      <Link className="header-auth-button" href="/sign-in">
+        Entrar
+      </Link>
+      <button
+        className="header-submit-button"
+        type="button"
+        onClick={() =>
+          toast({
+            title: 'Login indisponível',
+            description:
+              'O catálogo é público. Configure o login Google no Replit para habilitar envios.',
+            variant: 'destructive',
+          })
+        }
+      >
+        Enviar tradução
+      </button>
+    </nav>
+  );
+}
+
+function AuthenticatedHeaderActions() {
   const { isLoaded, isSignedIn } = useAuth();
   const { signOut } = useClerk();
   const [, setLocation] = useLocation();
@@ -171,6 +199,14 @@ function Header() {
 }
 
 function GoogleSignInPage() {
+  if (!clerkPublishableKey) {
+    return <AuthUnavailablePage />;
+  }
+
+  return <GoogleSignInWithClerk />;
+}
+
+function GoogleSignInWithClerk() {
   const { isLoaded: isAuthLoaded, isSignedIn } = useAuth();
   const { isLoaded: isSignInLoaded, signIn } = useSignIn();
   const [, setLocation] = useLocation();
@@ -240,6 +276,10 @@ function GoogleMark() {
 }
 
 function GoogleAuthCallback() {
+  if (!clerkPublishableKey) {
+    return <AuthUnavailablePage />;
+  }
+
   return (
     <main className="auth-page">
       <section className="auth-card auth-callback" aria-live="polite">
@@ -252,6 +292,14 @@ function GoogleAuthCallback() {
 }
 
 function ProtectedSubmissionPage() {
+  if (!clerkPublishableKey) {
+    return <AuthUnavailablePage />;
+  }
+
+  return <AuthenticatedSubmissionPage />;
+}
+
+function AuthenticatedSubmissionPage() {
   const { isLoaded, isSignedIn } = useAuth();
   const [, setLocation] = useLocation();
 
@@ -479,6 +527,25 @@ function Detail({ slug }: { slug: string }) {
   );
 }
 
+function AuthUnavailablePage() {
+  return (
+    <main className="auth-page">
+      <section className="auth-card" aria-labelledby="auth-unavailable-title">
+        <Brand />
+        <p className="auth-kicker">ÁREA DE CONTRIBUIÇÃO</p>
+        <h1 id="auth-unavailable-title">Login indisponível no preview</h1>
+        <p className="auth-description">
+          O catálogo permanece público. Para ativar o login Google e o envio de
+          traduções, configure o Clerk no Replit.
+        </p>
+        <Link className="auth-back-link" href="/">
+          Voltar ao catálogo
+        </Link>
+      </section>
+    </main>
+  );
+}
+
 function Footer() {
   return <footer className="site-footer"><Brand /><p>Clássicos preservados. Histórias em movimento.</p><div><span>© NEWPORTGAME</span><span>PATCHES E DOCUMENTAÇÃO, NUNCA ROMS COMPLETAS.</span></div></footer>;
 }
@@ -512,7 +579,11 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <WouterRouter base={basePath}>
-          <ClerkProviderWithRouter />
+          {clerkPublishableKey ? (
+            <ClerkProviderWithRouter publishableKey={clerkPublishableKey} />
+          ) : (
+            <Router />
+          )}
         </WouterRouter>
         <Toaster />
       </TooltipProvider>
@@ -520,7 +591,11 @@ function App() {
   );
 }
 
-function ClerkProviderWithRouter() {
+function ClerkProviderWithRouter({
+  publishableKey,
+}: {
+  publishableKey: string;
+}) {
   const [, setLocation] = useLocation();
 
   const stripBase = (path: string) =>
@@ -530,7 +605,7 @@ function ClerkProviderWithRouter() {
 
   return (
     <ClerkProvider
-      publishableKey={clerkPublishableKey}
+      publishableKey={publishableKey}
       proxyUrl={clerkProxyUrl}
       signInUrl={`${basePath}/sign-in`}
       routerPush={(to) => setLocation(stripBase(to))}
