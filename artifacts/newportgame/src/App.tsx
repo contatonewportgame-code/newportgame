@@ -41,23 +41,52 @@ const spellcasterScreenshots = [
 ];
 
 function SpellcasterGallery() {
+  const [activeScreenshotIndex, setActiveScreenshotIndex] = useState(0);
+  const activeScreenshot = spellcasterScreenshots[activeScreenshotIndex];
+  const previousScreenshot = () => {
+    setActiveScreenshotIndex((index) =>
+      (index - 1 + spellcasterScreenshots.length) % spellcasterScreenshots.length,
+    );
+  };
+  const nextScreenshot = () => {
+    setActiveScreenshotIndex((index) => (index + 1) % spellcasterScreenshots.length);
+  };
+
   return (
     <section className="game-gallery" aria-labelledby="spellcaster-gallery-title">
       <div className="game-gallery-heading">
         <span>CAPTURAS DO JOGO</span>
         <h2 id="spellcaster-gallery-title">SpellCaster em português</h2>
       </div>
-      <div className="game-gallery-grid">
-        {spellcasterScreenshots.map((screenshot) => (
-          <figure className="game-gallery-item" key={screenshot.src}>
-            <img
-              src={screenshot.src}
-              alt={screenshot.alt}
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
-        ))}
+      <div className="game-gallery-stage">
+        <figure className="game-gallery-item">
+          <img
+            src={activeScreenshot.src}
+            alt={activeScreenshot.alt}
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+        <button
+          type="button"
+          className="game-gallery-control previous"
+          onClick={previousScreenshot}
+          aria-label="Ver captura anterior"
+        >
+          <ArrowLeft size={19} aria-hidden="true" />
+        </button>
+        <button
+          type="button"
+          className="game-gallery-control next"
+          onClick={nextScreenshot}
+          aria-label="Ver próxima captura"
+        >
+          <ArrowRight size={19} aria-hidden="true" />
+        </button>
+      </div>
+      <div className="game-gallery-pagination" aria-live="polite" aria-atomic="true">
+        {String(activeScreenshotIndex + 1).padStart(2, '0')} /{' '}
+        {String(spellcasterScreenshots.length).padStart(2, '0')}
       </div>
     </section>
   );
