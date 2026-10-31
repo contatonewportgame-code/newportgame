@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Newportgame"
+description = "Catálogo oficial da Newportgame para traduções, restaurações e projetos de preservação de jogos clássicos, começando por SpellCaster e Kujaku Ou."
+version = "1.0.0"
+id = "artifacts/newportgame"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25654
+
+[services.development]
+run = "pnpm --filter @workspace/newportgame run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/newportgame", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/newportgame/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25654"
+BASE_PATH = "/"
