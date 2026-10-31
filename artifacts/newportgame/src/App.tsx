@@ -39,17 +39,18 @@ function Artwork({ project, large = false }: { project: Project; large?: boolean
   </div>;
 }
 
+function CoverTitle({ project }: { project: Project }) {
+  return <h2 className="cover-title">{project.title}</h2>;
+}
+
 function CoverCaption({ project }: { project: Project }) {
-  return <span className="cover-caption">
-    <strong>{project.title}</strong>
-    <span>Traduzido por: {project.translator}</span>
-  </span>;
+  return <span className="cover-caption">Traduzido por: {project.translator}</span>;
 }
 
 function Home() {
   return <><Header /><main className="shelf-home"><p className="shelf-caption">Traduções e restaurações de jogos clássicos.</p><section className="cover-shelf" aria-label="Jogos do acervo">
-    <Link className="cover-link" href="/jogos/spellcaster" aria-label="Abrir detalhes de SpellCaster, traduzido por Newportgame"><Artwork project={projects[0]} /><CoverCaption project={projects[0]} /></Link>
-    <a className="cover-link" href="/jogos/kujaku-ou" target="_blank" rel="noopener noreferrer" aria-label="Abrir detalhes de Kujaku Ou, traduzido por Newportgame, em uma nova aba"><Artwork project={projects[1]} /><CoverCaption project={projects[1]} /></a>
+    <Link className="cover-link" href="/jogos/spellcaster" aria-label="Abrir detalhes de SpellCaster, traduzido por Newportgame"><CoverTitle project={projects[0]} /><Artwork project={projects[0]} /><CoverCaption project={projects[0]} /></Link>
+    <a className="cover-link" href="/jogos/kujaku-ou" target="_blank" rel="noopener noreferrer" aria-label="Abrir detalhes de Kujaku Ou, traduzido por Newportgame, em uma nova aba"><CoverTitle project={projects[1]} /><Artwork project={projects[1]} /><CoverCaption project={projects[1]} /></a>
   </section></main></>;
 }
 
