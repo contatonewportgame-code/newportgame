@@ -748,47 +748,20 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible { 
   background: #131416;
 }
 .cover-link .artwork-cover img { width: 100%; height: 100%; object-fit: contain; }
-.artwork-cover { position: relative; isolation: isolate; }
-.official-seal {
-  position: absolute;
-  z-index: 2;
-  top: 8px;
-  left: 8px;
+.cover-caption {
   display: flex;
-  width: clamp(52px, 5.3vw, 68px);
-  aspect-ratio: 1;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
-  border: 2px solid #f1d47c;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 24%, #fff2b5 0, #e6c05c 38%, #bd8529 72%, #885a18 100%);
-  box-shadow: inset 0 0 0 2px #80561c, inset 0 0 0 4px rgba(255, 233, 160, .86), 0 3px 9px rgba(0, 0, 0, .58);
-  color: #49300d;
+  gap: 5px;
+  margin-top: 10px;
+  padding: 0 2px;
+  color: #c1c0ba;
   text-align: center;
-  transform: rotate(-8deg);
-  pointer-events: none;
+  font: 500 clamp(8px, .9vw, 12px)/1.3 'DM Sans', sans-serif;
+  letter-spacing: -.02em;
+  white-space: nowrap;
 }
-.official-seal::before {
-  position: absolute;
-  inset: 6px;
-  border: 1px solid rgba(76, 47, 8, .6);
-  border-radius: 50%;
-  content: "";
-}
-.official-seal .seal-prefix {
-  font: 700 clamp(4px, .43vw, 5px)/1 'DM Mono', monospace;
-  letter-spacing: .08em;
-}
-.official-seal strong {
-  font: 700 clamp(7px, .72vw, 9px)/1 'Space Grotesk', sans-serif;
-  letter-spacing: .04em;
-}
-.official-seal .seal-brand {
-  font: 700 clamp(3.2px, .34vw, 4.5px)/1 'DM Mono', monospace;
-  letter-spacing: .04em;
-}
+.cover-caption strong { color: #f1dcb0; font-weight: 700; }
 .detail-visual .artwork-cover.artwork-large {
   width: min(100%, 262px);
   height: auto;
@@ -801,8 +774,5 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible { 
   .shelf-home { min-height: calc(100dvh - 115px); padding: 24px 17px 52px; }
   .cover-shelf { gap: clamp(12px, 4vw, 22px); }
   .cover-link { width: min(43vw, 292px); }
-  .official-seal { top: 6px; left: 6px; width: clamp(48px, 14vw, 58px); }
-  .official-seal .seal-prefix { font-size: 4px; }
-  .official-seal strong { font-size: 7px; }
-  .official-seal .seal-brand { font-size: 3.2px; }
 }
+@media (max-width: 390px) { .cover-caption { flex-wrap: wrap; gap: 1px 5px; white-space: normal; } }
