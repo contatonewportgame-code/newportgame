@@ -188,36 +188,105 @@ function Detail({ slug }: { slug: string }) {
   const isSpellcaster = project.slug === 'spellcaster';
   const complete = project.status === 'Completo';
   const related = project.slug === 'kujaku-ou' ? 'SpellCaster' : 'Kujaku Ou';
-  return <><Header /><main className="detail-page"><div className="detail-crumb"><Link href="/">← Catálogo</Link><span>/</span><span>{project.title}</span></div><div className="detail-layout"><div className="detail-visual"><Artwork project={project} large /><div className="visual-note"><span>REGISTRO NEWPORTGAME</span><span>{project.slug === 'kujaku-ou' ? 'CAPA GOLD CARTRIDGE · MARK III / MASTER SYSTEM' : 'CAPA ORIGINAL · SEGA MASTER SYSTEM'}</span></div>{isSpellcaster && <SpellcasterGallery />}</div><div className="detail-copy"><div className="eyebrow"><span className="eyebrow-line" /> PROJETO OFICIAL NEWPORTGAME</div><div className={`status-pill detail-status ${complete ? 'is-ready' : 'is-prep'}`}><i />{project.status}</div><h1>{project.title}</h1><p className="detail-lead">{project.subtitle}</p><div className="detail-facts"><div><span>PLATAFORMA</span><b>{project.platform}</b></div><div><span>TIPO DE PROJETO</span><b>{project.slug === 'spellcaster' ? 'Tradução PT-BR' : 'Tradução + restauração técnica'}</b></div><div><span>RESPONSÁVEL</span><b>Newportgame · projeto oficial</b></div><div><span>CONTEÚDO</span><b>Patches e documentação</b></div></div>
-       {!isSpellcaster && <div className={`availability ${complete ? 'available' : 'pending'}`}><div className="availability-icon">{complete ? <Check size={17} /> : <Sparkles size={17} />}</div><div><b>{complete ? 'Materiais do projeto' : 'Materiais ainda indisponíveis'}</b><p>Nenhum link de patch ou documentação foi fornecido nesta apresentação.</p></div></div>}
-      {isSpellcaster && <section className="translation-video" aria-labelledby="spellcaster-video-heading">
-        <h2 id="spellcaster-video-heading">Vídeo sobre a tradução</h2>
-        <div className="translation-video-frame">
-          <iframe
-            src="https://www.youtube-nocookie.com/embed/Bg4PlKwsWoQ"
-            title="Vídeo sobre a tradução de SpellCaster"
-            loading="lazy"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+  return (
+    <>
+      <Header />
+      <main className="detail-page">
+        <div className="detail-crumb">
+          <Link href="/">← Catálogo</Link>
+          <span>/</span>
+          <span>{project.title}</span>
         </div>
-      </section>}
-      <div className="detail-actions">
-        {isSpellcaster ? (
-          <a className="download-button" href={spellcasterPatchUrl} target="_blank" rel="noopener noreferrer" aria-label="Baixar patch de tradução de SpellCaster em formato ZIP">
-            <span>Baixar patch</span>
-            <span>ZIP · v1.0</span>
-          </a>
-        ) : (
-          <button className="unavailable-button" disabled title="Link ainda não disponível">
-            <span>Download indisponível</span>
-            <span>EM BREVE</span>
-          </button>
-        )}
-        <Link className="text-link" href={`/jogos/${project.slug === 'spellcaster' ? 'kujaku-ou' : 'spellcaster'}`}>Conheça {related} <ArrowRight size={15} /></Link>
-      </div>
-       {project.slug === 'kujaku-ou' && <div className="related-note"><span>NOTA DE CONTEXTO</span><p>SpellCaster é identificado na proposta como o título ocidental relacionado a Kujaku Ou.</p><Link href="/jogos/spellcaster">Ver projeto SpellCaster <ArrowUpRight size={14} /></Link></div>}</div></div>{isSpellcaster && <SpellcasterDetails />}<ProjectAuthorNotes notes={project.authorNotes} /><div className="detail-bottom"><Link href="/"><ArrowLeft size={15} /> Voltar ao catálogo</Link><span>NEWPORTGAME · ARQUIVO DE PRESERVAÇÃO</span></div></main><Footer /></>;
+        <div className="detail-layout">
+          <div className="detail-visual">
+            <Artwork project={project} large />
+            <div className="visual-note">
+              <span>REGISTRO NEWPORTGAME</span>
+              <span>{project.slug === 'kujaku-ou' ? 'CAPA GOLD CARTRIDGE · MARK III / MASTER SYSTEM' : 'CAPA ORIGINAL · SEGA MASTER SYSTEM'}</span>
+            </div>
+            {isSpellcaster && <SpellcasterGallery />}
+          </div>
+          <div className="detail-copy">
+            <div className="eyebrow"><span className="eyebrow-line" /> PROJETO OFICIAL NEWPORTGAME</div>
+            <div className={`status-pill detail-status ${complete ? 'is-ready' : 'is-prep'}`}>
+              <i />{project.status}
+            </div>
+            <h1>{project.title}</h1>
+            <p className="detail-lead">{project.subtitle}</p>
+            {isSpellcaster && (
+              <a
+                className="download-button detail-download-button"
+                href={spellcasterPatchUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Baixar patch de tradução de SpellCaster em formato ZIP"
+              >
+                <span>Baixar patch</span>
+                <span>ZIP · v1.0</span>
+              </a>
+            )}
+            <div className="detail-facts">
+              <div><span>PLATAFORMA</span><b>{project.platform}</b></div>
+              <div><span>TIPO DE PROJETO</span><b>{project.slug === 'spellcaster' ? 'Tradução PT-BR' : 'Tradução + restauração técnica'}</b></div>
+              <div><span>RESPONSÁVEL</span><b>Newportgame · projeto oficial</b></div>
+              <div><span>CONTEÚDO</span><b>Patches e documentação</b></div>
+            </div>
+            {!isSpellcaster && (
+              <div className={`availability ${complete ? 'available' : 'pending'}`}>
+                <div className="availability-icon">
+                  {complete ? <Check size={17} /> : <Sparkles size={17} />}
+                </div>
+                <div>
+                  <b>{complete ? 'Materiais do projeto' : 'Materiais ainda indisponíveis'}</b>
+                  <p>Nenhum link de patch ou documentação foi fornecido nesta apresentação.</p>
+                </div>
+              </div>
+            )}
+            {isSpellcaster && (
+              <section className="translation-video" aria-labelledby="spellcaster-video-heading">
+                <h2 id="spellcaster-video-heading">Vídeo sobre a tradução</h2>
+                <div className="translation-video-frame">
+                  <iframe
+                    src="https://www.youtube-nocookie.com/embed/Bg4PlKwsWoQ"
+                    title="Vídeo sobre a tradução de SpellCaster"
+                    loading="lazy"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              </section>
+            )}
+            <div className="detail-actions">
+              {!isSpellcaster && (
+                <button className="unavailable-button" disabled title="Link ainda não disponível">
+                  <span>Download indisponível</span>
+                  <span>EM BREVE</span>
+                </button>
+              )}
+              <Link className="text-link" href={`/jogos/${project.slug === 'spellcaster' ? 'kujaku-ou' : 'spellcaster'}`}>
+                Conheça {related} <ArrowRight size={15} />
+              </Link>
+            </div>
+            {project.slug === 'kujaku-ou' && (
+              <div className="related-note">
+                <span>NOTA DE CONTEXTO</span>
+                <p>SpellCaster é identificado na proposta como o título ocidental relacionado a Kujaku Ou.</p>
+                <Link href="/jogos/spellcaster">Ver projeto SpellCaster <ArrowUpRight size={14} /></Link>
+              </div>
+            )}
+          </div>
+        </div>
+        {isSpellcaster && <SpellcasterDetails />}
+        <ProjectAuthorNotes notes={project.authorNotes} />
+        <div className="detail-bottom">
+          <Link href="/"><ArrowLeft size={15} /> Voltar ao catálogo</Link>
+          <span>NEWPORTGAME · ARQUIVO DE PRESERVAÇÃO</span>
+        </div>
+      </main>
+      <Footer />
+    </>
+  );
 }
 
 function Footer() {
