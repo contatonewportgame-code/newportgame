@@ -23,6 +23,8 @@ const projects: Project[] = [
   { slug: 'kujaku-ou', title: 'Kujaku Ou', platform: 'Sega Mark III / Master System', kind: 'Tradução + restauração técnica', status: 'Status não informado', summary: 'Tradução oficial e restauração técnica baseadas na versão japonesa.', accent: 'jade', monogram: '孔雀', translator: 'Newportgame' },
 ];
 
+const spellcasterPatchUrl = 'https://github.com/contatonewportgame-code/spellcaster-sms-ptbr/releases/download/v1.0.0/SpellCaster_PTBR_v1.0_Newportgame.zip';
+
 function Brand() {
   return <Link href="/" className="brand" aria-label="NEWPORTGAME, início"><span className="brand-name">NEWPORTGAME</span></Link>;
 }
@@ -57,12 +59,39 @@ function Home() {
 function Detail({ slug }: { slug: string }) {
   const project = projects.find((p) => p.slug === slug);
   if (!project) return <NotFound />;
+  const isSpellcaster = project.slug === 'spellcaster';
   const complete = project.status === 'Completo';
   const related = project.slug === 'kujaku-ou' ? 'SpellCaster' : 'Kujaku Ou';
   return <><Header /><main className="detail-page"><div className="detail-crumb"><Link href="/">← Catálogo</Link><span>/</span><span>{project.title}</span></div><div className="detail-layout"><div className="detail-visual"><Artwork project={project} large /><div className="visual-note"><span>REGISTRO NEWPORTGAME</span><span>{project.slug === 'kujaku-ou' ? 'CAPA GOLD CARTRIDGE · MARK III / MASTER SYSTEM' : 'CAPA ORIGINAL · SEGA MASTER SYSTEM'}</span></div></div><div className="detail-copy"><div className="eyebrow"><span className="eyebrow-line" /> PROJETO OFICIAL NEWPORTGAME</div><div className={`status-pill detail-status ${complete ? 'is-ready' : 'is-prep'}`}><i />{project.status}</div><h1>{project.title}</h1><p className="detail-lead">{project.slug === 'spellcaster' ? 'Uma tradução oficial Newportgame para PT-BR, completa e pronta para preservar a experiência em português.' : 'Tradução oficial Newportgame e restauração técnica baseadas na versão japonesa.'}</p><div className="detail-facts"><div><span>PLATAFORMA</span><b>{project.platform}</b></div><div><span>TIPO DE PROJETO</span><b>{project.slug === 'spellcaster' ? 'Tradução PT-BR' : 'Tradução + restauração técnica'}</b></div><div><span>RESPONSÁVEL</span><b>Newportgame · projeto oficial</b></div><div><span>CONTEÚDO</span><b>Patches e documentação</b></div></div>
-      <div className={`availability ${complete ? 'available' : 'pending'}`}><div className="availability-icon">{complete ? <Check size={17} /> : <Sparkles size={17} />}</div><div><b>{complete ? 'Materiais do projeto' : 'Materiais ainda indisponíveis'}</b><p>{complete ? 'Links para patch e documentação não foram fornecidos nesta apresentação.' : 'Nenhum link de patch ou documentação foi fornecido nesta apresentação.'}</p></div></div>
+      <div className={`availability ${complete ? 'available' : 'pending'}`}><div className="availability-icon">{complete ? <Check size={17} /> : <Sparkles size={17} />}</div><div><b>{complete ? 'Materiais do projeto' : 'Materiais ainda indisponíveis'}</b><p>{isSpellcaster ? 'Assista ao vídeo sobre a tradução e baixe o patch abaixo.' : 'Nenhum link de patch ou documentação foi fornecido nesta apresentação.'}</p></div></div>
       <div className="rom-policy"><ShieldCheck size={18} /><p><b>Preservação responsável.</b> ROMs comerciais completas não são distribuídas. O acervo disponibiliza apenas patches e documentação.</p></div>
-      <div className="detail-actions"><button className="unavailable-button" disabled title="Link ainda não disponível"><span>Download indisponível</span><span>EM BREVE</span></button><Link className="text-link" href={`/jogos/${project.slug === 'spellcaster' ? 'kujaku-ou' : 'spellcaster'}`}>Conheça {related} <ArrowRight size={15} /></Link></div>
+      {isSpellcaster && <section className="translation-video" aria-labelledby="spellcaster-video-heading">
+        <h2 id="spellcaster-video-heading">Vídeo sobre a tradução</h2>
+        <div className="translation-video-frame">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/Bg4PlKwsWoQ"
+            title="Vídeo sobre a tradução de SpellCaster"
+            loading="lazy"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      </section>}
+      <div className="detail-actions">
+        {isSpellcaster ? (
+          <a className="download-button" href={spellcasterPatchUrl} target="_blank" rel="noopener noreferrer" aria-label="Baixar patch de tradução de SpellCaster em formato ZIP">
+            <span>Baixar patch</span>
+            <span>ZIP · v1.0</span>
+          </a>
+        ) : (
+          <button className="unavailable-button" disabled title="Link ainda não disponível">
+            <span>Download indisponível</span>
+            <span>EM BREVE</span>
+          </button>
+        )}
+        <Link className="text-link" href={`/jogos/${project.slug === 'spellcaster' ? 'kujaku-ou' : 'spellcaster'}`}>Conheça {related} <ArrowRight size={15} /></Link>
+      </div>
       {project.slug === 'kujaku-ou' && <div className="related-note"><span>NOTA DE CONTEXTO</span><p>SpellCaster é identificado na proposta como o título ocidental relacionado a Kujaku Ou.</p><Link href="/jogos/spellcaster">Ver projeto SpellCaster <ArrowUpRight size={14} /></Link></div>}</div></div><div className="detail-bottom"><Link href="/"><ArrowLeft size={15} /> Voltar ao catálogo</Link><span>NEWPORTGAME · ARQUIVO DE PRESERVAÇÃO</span></div></main><Footer /></>;
 }
 

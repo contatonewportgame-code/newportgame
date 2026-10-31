@@ -565,10 +565,18 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .rom-policy svg { flex: none; color: #52735e; }
 .rom-policy p { margin: 0; font-size: 10px; line-height: 1.6; }
 .rom-policy b { color: #394b4d; }
+.translation-video { margin: 8px 0 18px; }
+.translation-video > h2 { margin: 0 0 9px; color: #394856; font: 600 10px 'DM Mono', monospace; letter-spacing: .09em; text-transform: uppercase; }
+.translation-video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid #d3caba; background: #090a0b; }
+.translation-video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .detail-actions { display: flex; gap: 20px; align-items: center; border-top: 1px solid #d2cabb; padding-top: 18px; }
 .unavailable-button { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; padding: 11px 14px; border: 0; background: #d7d4ca; color: #70756f; cursor: not-allowed; }
 .unavailable-button span:first-child { font-size: 11px; font-weight: 600; }
 .unavailable-button span:last-child { font: 8px 'DM Mono', monospace; letter-spacing: .1em; }
+.download-button { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; padding: 11px 14px; border: 1px solid #29466b; background: #29466b; color: #f5f1e7; text-decoration: none; transition: background .2s, transform .2s; }
+.download-button span:first-child { font-size: 11px; font-weight: 600; }
+.download-button span:last-child { font: 8px 'DM Mono', monospace; letter-spacing: .1em; }
+.download-button:hover,.download-button:focus-visible { background: #355b85; color: #fff; transform: translateY(-1px); outline: 2px solid #c8ad78; outline-offset: 2px; }
 .text-link { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; color: #29466b; }
 .text-link:hover { color: #a97930; }
 .related-note { margin-top: 20px; padding: 14px; border-left: 2px solid #bf903d; background: rgba(255,255,255,.28); }
@@ -674,7 +682,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible { 
 .detail-page { max-width: 1400px; }.detail-crumb { color: #aaa79f; }.detail-crumb a:hover,.detail-bottom a:hover { color: #dfc38c; }.visual-note,.detail-bottom { color: #aaa79f; }.detail-copy h1 { color: #f0eee8; }.detail-lead { color: #c0beb7; }
 .detail-facts,.detail-facts>div,.detail-actions,.detail-bottom { border-color: #38393a; }.detail-facts span { color: #a5a29a; }.detail-facts b { color: #dedbd3; }
 .availability { border-color: #41413c; background: #141615; }.availability-icon { background: #29352c; color: #c1d4a4; }.availability.pending .availability-icon { background: #332d21; color: #d7b875; }.availability b { color: #e2dfd7; }.availability p { color: #b2b0a9; }
-.rom-policy { color: #bebbb3; }.rom-policy svg { color: #b7c594; }.rom-policy b { color: #e3e0d8; }.unavailable-button { border: 1px solid #41413e; background: #242522; color: #aaa89f; }.text-link,.related-note a { color: #dfc38c; }.related-note { border-color: #c7a86c; background: #141514; }.related-note>span { color: #aaa79e; }.related-note p { color: #bab8b0; }
+.rom-policy { color: #bebbb3; }.rom-policy svg { color: #b7c594; }.rom-policy b { color: #e3e0d8; }.translation-video > h2 { color: #dedbd3; }.translation-video-frame { border-color: #41413e; }.unavailable-button { border: 1px solid #41413e; background: #242522; color: #aaa89f; }.download-button { border-color: #c4a15f; background: #d3b476; color: #171715; }.download-button:hover,.download-button:focus-visible { background: #e7d09c; color: #171715; }.text-link,.related-note a { color: #dfc38c; }.related-note { border-color: #c7a86c; background: #141514; }.related-note>span { color: #aaa79e; }.related-note p { color: #bab8b0; }
 @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 @media (max-width:760px) {
   .header-wordmark { padding-inline: 8px; }.header-wordmark .brand-name { font-size: clamp(39px,13.7vw,62px); letter-spacing: -.08em; }.header-wordmark .brand small { margin-top: 7px; font-size: 7px; letter-spacing: .16em; }
