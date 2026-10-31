@@ -888,6 +888,23 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible { 
   .game-gallery-control.next { right: 9px; }
 }
 
+.project-author-notes {
+  border-top: 1px solid #38393a;
+  padding: 28px 0 38px;
+}
+.project-author-notes h2 {
+  margin: 0 0 13px;
+  color: #f0eee8;
+  font: 600 20px/1.3 'Space Grotesk', sans-serif;
+}
+.project-author-notes p {
+  max-width: 720px;
+  margin: 0;
+  color: #c0beb7;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
 /* Give the available patch download a clear, full-width call to action. */
 .detail-actions {
   align-items: stretch;

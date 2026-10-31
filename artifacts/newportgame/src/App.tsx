@@ -23,9 +23,9 @@ import {
 
 const queryClient = new QueryClient();
 
-type Project = { slug: string; title: string; platform: string; kind: string; status: string; summary: string; subtitle: string; accent: string; monogram: string; translator: string; };
+type Project = { slug: string; title: string; platform: string; kind: string; status: string; summary: string; subtitle: string; accent: string; monogram: string; translator: string; authorNotes?: string; };
 const projects: Project[] = [
-  { slug: 'spellcaster', title: 'SpellCaster', platform: 'Master System', kind: 'Tradução PT-BR', status: 'Completo', summary: 'Uma tradução oficial Newportgame para redescobrir este clássico no seu idioma.', subtitle: 'RPG de ação e aventura do Master System: Kane investiga ataques a templos e enfrenta criaturas usando magia.', accent: 'gold', monogram: 'SC', translator: 'Newportgame' },
+  { slug: 'spellcaster', title: 'SpellCaster', platform: 'Master System', kind: 'Tradução PT-BR', status: 'Completo', summary: 'Uma tradução oficial Newportgame para redescobrir este clássico no seu idioma.', subtitle: 'RPG de ação e aventura do Master System: Kane investiga ataques a templos e enfrenta criaturas usando magia.', accent: 'gold', monogram: 'SC', translator: 'Newportgame', authorNotes: 'Cristiano Mariano relata que desenvolveu a tradução em um notebook antigo. O projeto Newportgame combina esse trabalho de localização com a restauração técnica do clássico para o público brasileiro.' },
   { slug: 'kujaku-ou', title: 'Kujaku Ou', platform: 'Sega Mark III / Master System', kind: 'Tradução + restauração técnica', status: 'Status não informado', summary: 'Tradução oficial e restauração técnica baseadas na versão japonesa.', subtitle: 'Aventura de ação e exploração protagonizada pelo monge exorcista Kujaku, em uma investigação de forças sobrenaturais no Japão.', accent: 'jade', monogram: '孔雀', translator: 'Newportgame' },
 ];
 
@@ -130,8 +130,10 @@ function SpellcasterDetails() {
         <div className="eyebrow"><span className="eyebrow-line" /> SOBRE O JOGO</div>
         <h2 id="spellcaster-game-title">A jornada de Kane</h2>
         <p>
-          Kane Tensen é um guerreiro místico do Templo Summit. Quando templos são atacados e os guerreiros enviados
-          para protegê-los desaparecem, ele parte para investigar a ameaça.
+          Kane, guerreiro místico do Templo Summit, é enviado por Daikak para verificar o desaparecimento de um grupo
+          de guardiões. A investigação revela ataques de um exército desconhecido e de criaturas sobrenaturais. Entre
+          deuses, demônios e antigas relíquias, ele precisa descobrir quem está por trás da ameaça e o que seu destino
+          tem a ver com ela.
         </p>
       </div>
       <div className="game-story-grid">
@@ -140,10 +142,6 @@ function SpellcasterDetails() {
           <p>
             SpellCaster alterna combates de ação com cenas de aventura. Nas batalhas, Kane usa ataques de Ki,
             saltos e magia; nas outras cenas, conversa com personagens, procura pistas e escolhe comandos.
-          </p>
-          <p>
-            Cristiano Mariano relata que desenvolveu a tradução em um notebook antigo. O projeto Newportgame
-            combina esse trabalho de localização com a restauração técnica do clássico para o público brasileiro.
           </p>
         </article>
         <aside className="game-story-aside">
@@ -173,6 +171,17 @@ function SpellcasterDetails() {
   );
 }
 
+function ProjectAuthorNotes({ notes }: { notes?: string }) {
+  if (!notes) return null;
+
+  return (
+    <section className="project-author-notes" aria-labelledby="project-author-notes-title">
+      <h2 id="project-author-notes-title">Notas do autor</h2>
+      <p>{notes}</p>
+    </section>
+  );
+}
+
 function Detail({ slug }: { slug: string }) {
   const project = projects.find((p) => p.slug === slug);
   if (!project) return <NotFound />;
@@ -180,7 +189,7 @@ function Detail({ slug }: { slug: string }) {
   const complete = project.status === 'Completo';
   const related = project.slug === 'kujaku-ou' ? 'SpellCaster' : 'Kujaku Ou';
   return <><Header /><main className="detail-page"><div className="detail-crumb"><Link href="/">← Catálogo</Link><span>/</span><span>{project.title}</span></div><div className="detail-layout"><div className="detail-visual"><Artwork project={project} large /><div className="visual-note"><span>REGISTRO NEWPORTGAME</span><span>{project.slug === 'kujaku-ou' ? 'CAPA GOLD CARTRIDGE · MARK III / MASTER SYSTEM' : 'CAPA ORIGINAL · SEGA MASTER SYSTEM'}</span></div>{isSpellcaster && <SpellcasterGallery />}</div><div className="detail-copy"><div className="eyebrow"><span className="eyebrow-line" /> PROJETO OFICIAL NEWPORTGAME</div><div className={`status-pill detail-status ${complete ? 'is-ready' : 'is-prep'}`}><i />{project.status}</div><h1>{project.title}</h1><p className="detail-lead">{project.subtitle}</p><div className="detail-facts"><div><span>PLATAFORMA</span><b>{project.platform}</b></div><div><span>TIPO DE PROJETO</span><b>{project.slug === 'spellcaster' ? 'Tradução PT-BR' : 'Tradução + restauração técnica'}</b></div><div><span>RESPONSÁVEL</span><b>Newportgame · projeto oficial</b></div><div><span>CONTEÚDO</span><b>Patches e documentação</b></div></div>
-      <div className={`availability ${complete ? 'available' : 'pending'}`}><div className="availability-icon">{complete ? <Check size={17} /> : <Sparkles size={17} />}</div><div><b>{complete ? 'Materiais do projeto' : 'Materiais ainda indisponíveis'}</b><p>{isSpellcaster ? 'Assista ao vídeo sobre a tradução e baixe o patch abaixo.' : 'Nenhum link de patch ou documentação foi fornecido nesta apresentação.'}</p></div></div>
+       {!isSpellcaster && <div className={`availability ${complete ? 'available' : 'pending'}`}><div className="availability-icon">{complete ? <Check size={17} /> : <Sparkles size={17} />}</div><div><b>{complete ? 'Materiais do projeto' : 'Materiais ainda indisponíveis'}</b><p>Nenhum link de patch ou documentação foi fornecido nesta apresentação.</p></div></div>}
       {isSpellcaster && <section className="translation-video" aria-labelledby="spellcaster-video-heading">
         <h2 id="spellcaster-video-heading">Vídeo sobre a tradução</h2>
         <div className="translation-video-frame">
@@ -208,7 +217,7 @@ function Detail({ slug }: { slug: string }) {
         )}
         <Link className="text-link" href={`/jogos/${project.slug === 'spellcaster' ? 'kujaku-ou' : 'spellcaster'}`}>Conheça {related} <ArrowRight size={15} /></Link>
       </div>
-       {project.slug === 'kujaku-ou' && <div className="related-note"><span>NOTA DE CONTEXTO</span><p>SpellCaster é identificado na proposta como o título ocidental relacionado a Kujaku Ou.</p><Link href="/jogos/spellcaster">Ver projeto SpellCaster <ArrowUpRight size={14} /></Link></div>}</div></div>{isSpellcaster && <SpellcasterDetails />}<div className="detail-bottom"><Link href="/"><ArrowLeft size={15} /> Voltar ao catálogo</Link><span>NEWPORTGAME · ARQUIVO DE PRESERVAÇÃO</span></div></main><Footer /></>;
+       {project.slug === 'kujaku-ou' && <div className="related-note"><span>NOTA DE CONTEXTO</span><p>SpellCaster é identificado na proposta como o título ocidental relacionado a Kujaku Ou.</p><Link href="/jogos/spellcaster">Ver projeto SpellCaster <ArrowUpRight size={14} /></Link></div>}</div></div>{isSpellcaster && <SpellcasterDetails />}<ProjectAuthorNotes notes={project.authorNotes} /><div className="detail-bottom"><Link href="/"><ArrowLeft size={15} /> Voltar ao catálogo</Link><span>NEWPORTGAME · ARQUIVO DE PRESERVAÇÃO</span></div></main><Footer /></>;
 }
 
 function Footer() {
