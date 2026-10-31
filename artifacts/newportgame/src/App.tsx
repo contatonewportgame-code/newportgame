@@ -96,48 +96,47 @@ function Home() {
 
 function SpellcasterStory() {
   return (
-    <section className="game-story" aria-labelledby="spellcaster-story-title">
+    <section className="game-story" aria-labelledby="spellcaster-patch-title">
       <div className="game-story-heading">
-        <div className="eyebrow"><span className="eyebrow-line" /> CONTEXTO DA VERSÃO</div>
-        <h2 id="spellcaster-story-title">A identidade de <em>SpellCaster</em></h2>
+        <div className="eyebrow"><span className="eyebrow-line" /> INFORMAÇÕES DO PATCH</div>
+        <h2 id="spellcaster-patch-title">Aplicação e compatibilidade</h2>
         <p>
-          SpellCaster é a adaptação ocidental de Kujaku Ou. Nesta versão, Kujaku aparece como Kane e a aventura
-          assume um tom de fantasia ocidental, com magos e castelos. É uma leitura própria da obra, com personagens
-          e referências diferentes das do jogo japonês.
+          O patch Newportgame traduz SpellCaster para português brasileiro. Confira a ROM-base antes de aplicar:
+          o pacote contém os arquivos de tradução, mas não inclui o jogo comercial.
         </p>
       </div>
       <div className="game-story-grid">
         <article className="game-story-main">
-          <h3>O roteiro ocidental, em português</h3>
+          <h3>ROM original indicada</h3>
           <p>
-            SpellCaster aposta em diálogos mais curtos e diretos. A tradução Newportgame parte da ROM ocidental
-            do jogo e leva esse roteiro ao português brasileiro, sem substituí-lo pela narrativa japonesa de
-            Kujaku Ou.
+            SpellCaster (USA, Europe).sms · 512 KB · CRC32 36729ED7. O patch está no formato IPS e deve ser aplicado
+            a uma ROM original limpa e compatível.
           </p>
           <p>
-            Assim, o patch preserva a identidade da edição de Master System chamada SpellCaster. Kujaku Ou é um
-            projeto relacionado, mas tem sua própria página e uma tradução baseada na versão japonesa.
+            Salve o resultado como um novo arquivo para preservar a ROM original. A compatibilidade pode variar
+            conforme a região e a configuração do emulador ou console.
           </p>
         </article>
         <aside className="game-story-aside">
-          <span>DUAS VERSÕES</span>
+          <span>APLICAR NO NAVEGADOR</span>
           <p>
-            SpellCaster é a adaptação ocidental; Kujaku Ou é a versão japonesa original. Os jogos compartilham
-            uma origem, mas têm personagens, referências e roteiros próprios.
+            No Rom Patcher JS, selecione a ROM original e o arquivo IPS do pacote, depois clique em “Apply patch”.
           </p>
-          <Link href="/jogos/kujaku-ou">Conheça Kujaku Ou <ArrowUpRight size={14} /></Link>
+          <a href="https://www.marcrobledo.com/RomPatcher.js/" target="_blank" rel="noopener noreferrer">
+            Abrir Rom Patcher JS <ArrowUpRight size={14} />
+          </a>
         </aside>
       </div>
       <div className="game-story-cards">
         <article>
-          <span>TRADUÇÃO</span>
-          <b>A edição ocidental em PT-BR</b>
-          <p>O patch traduz o roteiro de SpellCaster para português brasileiro. Ele não converte o jogo para a história japonesa de Kujaku Ou.</p>
+          <span>CONTEÚDO DO ZIP</span>
+          <b>Patch IPS · tabela · manual</b>
+          <p>O pacote v1.0 inclui SpellCaster (PT-BR) [Newportgame].ips, SpellCaster.tbl e LEIA-ME.txt.</p>
         </article>
         <article>
-          <span>ROM-BASE</span>
-          <b>SpellCaster (USA, Europe)</b>
-          <p>A ROM original compatível tem 512 KB. O pacote inclui um patch IPS, não a ROM comercial.</p>
+          <span>COMPATIBILIDADE INFORMADA</span>
+          <b>Emuladores e hardware</b>
+          <p>Emulicious, Kega Fusion, RetroArch, Master System, Mark III e flashcarts compatíveis.</p>
         </article>
       </div>
     </section>
@@ -150,7 +149,7 @@ function Detail({ slug }: { slug: string }) {
   const isSpellcaster = project.slug === 'spellcaster';
   const complete = project.status === 'Completo';
   const related = project.slug === 'kujaku-ou' ? 'SpellCaster' : 'Kujaku Ou';
-  return <><Header /><main className="detail-page"><div className="detail-crumb"><Link href="/">← Catálogo</Link><span>/</span><span>{project.title}</span></div><div className="detail-layout"><div className="detail-visual"><Artwork project={project} large /><div className="visual-note"><span>REGISTRO NEWPORTGAME</span><span>{project.slug === 'kujaku-ou' ? 'CAPA GOLD CARTRIDGE · MARK III / MASTER SYSTEM' : 'CAPA ORIGINAL · SEGA MASTER SYSTEM'}</span></div>{isSpellcaster && <SpellcasterGallery />}</div><div className="detail-copy"><div className="eyebrow"><span className="eyebrow-line" /> PROJETO OFICIAL NEWPORTGAME</div><div className={`status-pill detail-status ${complete ? 'is-ready' : 'is-prep'}`}><i />{project.status}</div><h1>{project.title}</h1><p className="detail-lead">{project.slug === 'spellcaster' ? 'Tradução oficial Newportgame para português brasileiro da edição ocidental de SpellCaster, preservando o roteiro e o tom desta versão.' : 'Tradução oficial Newportgame e restauração técnica baseadas na versão japonesa.'}</p><div className="detail-facts"><div><span>PLATAFORMA</span><b>{project.platform}</b></div><div><span>TIPO DE PROJETO</span><b>{project.slug === 'spellcaster' ? 'Tradução PT-BR' : 'Tradução + restauração técnica'}</b></div><div><span>RESPONSÁVEL</span><b>Newportgame · projeto oficial</b></div><div><span>CONTEÚDO</span><b>Patches e documentação</b></div></div>
+  return <><Header /><main className="detail-page"><div className="detail-crumb"><Link href="/">← Catálogo</Link><span>/</span><span>{project.title}</span></div><div className="detail-layout"><div className="detail-visual"><Artwork project={project} large /><div className="visual-note"><span>REGISTRO NEWPORTGAME</span><span>{project.slug === 'kujaku-ou' ? 'CAPA GOLD CARTRIDGE · MARK III / MASTER SYSTEM' : 'CAPA ORIGINAL · SEGA MASTER SYSTEM'}</span></div>{isSpellcaster && <SpellcasterGallery />}</div><div className="detail-copy"><div className="eyebrow"><span className="eyebrow-line" /> PROJETO OFICIAL NEWPORTGAME</div><div className={`status-pill detail-status ${complete ? 'is-ready' : 'is-prep'}`}><i />{project.status}</div><h1>{project.title}</h1><p className="detail-lead">{project.slug === 'spellcaster' ? 'Patch de tradução Newportgame para PT-BR, em formato IPS, compatível com SpellCaster (USA, Europe). A ROM original não está incluída.' : 'Tradução oficial Newportgame e restauração técnica baseadas na versão japonesa.'}</p><div className="detail-facts"><div><span>PLATAFORMA</span><b>{project.platform}</b></div><div><span>TIPO DE PROJETO</span><b>{project.slug === 'spellcaster' ? 'Tradução PT-BR' : 'Tradução + restauração técnica'}</b></div><div><span>RESPONSÁVEL</span><b>Newportgame · projeto oficial</b></div><div><span>CONTEÚDO</span><b>Patches e documentação</b></div></div>
       <div className={`availability ${complete ? 'available' : 'pending'}`}><div className="availability-icon">{complete ? <Check size={17} /> : <Sparkles size={17} />}</div><div><b>{complete ? 'Materiais do projeto' : 'Materiais ainda indisponíveis'}</b><p>{isSpellcaster ? 'Assista ao vídeo sobre a tradução e baixe o patch abaixo.' : 'Nenhum link de patch ou documentação foi fornecido nesta apresentação.'}</p></div></div>
       <div className="rom-policy"><ShieldCheck size={18} /><p><b>Preservação responsável.</b> ROMs comerciais completas não são distribuídas. O acervo disponibiliza apenas patches e documentação.</p></div>
       {isSpellcaster && <section className="translation-video" aria-labelledby="spellcaster-video-heading">
