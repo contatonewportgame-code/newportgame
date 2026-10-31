@@ -950,3 +950,188 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible { 
   box-shadow: 0 12px 30px rgba(34, 197, 94, 0.3);
 }
 .detail-download-button { margin-top: 18px; }
+
+/* Public browsing stays open; only the contribution route requires Google sign-in. */
+.site-header .header-inner {
+  height: 76px;
+  padding: 0 clamp(16px, 4vw, 56px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.site-header .brand {
+  display: inline-flex;
+  width: auto;
+  flex: 0 1 auto;
+}
+.site-header .brand-name {
+  width: auto;
+  text-align: left;
+  color: #e6e5df;
+  font: 700 18px/1 'Space Grotesk', sans-serif;
+  letter-spacing: -.06em;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+}
+.header-auth-button,
+.header-submit-button {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 13px;
+  border: 1px solid #5a5b5c;
+  background: transparent;
+  color: #e6e5df;
+  font: 600 11px 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: background .18s, color .18s, border-color .18s;
+}
+.header-auth-button:hover,
+.header-auth-button:focus-visible {
+  border-color: #d6a546;
+  color: #f4d28a;
+}
+.header-submit-button {
+  border-color: #d6a546;
+  background: #d6a546;
+  color: #17191b;
+}
+.header-submit-button:hover,
+.header-submit-button:focus-visible {
+  border-color: #edc56d;
+  background: #edc56d;
+  color: #17191b;
+}
+.auth-page {
+  min-height: calc(100dvh - 76px);
+  display: grid;
+  place-items: center;
+  padding: 32px 18px;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(214,165,70,.12), transparent 46%),
+    #08090b;
+  color: #e7e5df;
+}
+.auth-card {
+  width: min(100%, 440px);
+  padding: clamp(25px, 6vw, 42px);
+  border: 1px solid #343536;
+  background: #101113;
+  box-shadow: 0 24px 80px rgba(0,0,0,.35);
+}
+.auth-card > .brand { margin-bottom: 38px; }
+.auth-card .brand-name {
+  color: #e6e5df;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+}
+.auth-kicker {
+  margin: 0 0 12px;
+  color: #d6a546;
+  font: 9px 'DM Mono', monospace;
+  letter-spacing: .15em;
+}
+.auth-card h1,
+.submission-page h1 {
+  margin: 0;
+  color: #f0eee8;
+  font: 600 clamp(31px, 7vw, 42px)/1.05 'Space Grotesk', sans-serif;
+  letter-spacing: -.055em;
+}
+.auth-description,
+.submission-description {
+  margin: 16px 0 26px;
+  color: #b5b3ac;
+  font-size: 13px;
+  line-height: 1.75;
+}
+.google-sign-in-button {
+  width: 100%;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 1px solid #d3d1ca;
+  background: #f5f3ed;
+  color: #202124;
+  font: 600 13px 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: background .18s, transform .18s;
+}
+.google-sign-in-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: #fff;
+}
+.google-sign-in-button:disabled { cursor: wait; opacity: .72; }
+.google-mark { width: 19px; height: 19px; flex: none; }
+.auth-error {
+  margin: 14px 0 0;
+  color: #ffb4a9;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.auth-back-link {
+  display: inline-flex;
+  margin-top: 22px;
+  color: #d6a546;
+  font-size: 11px;
+}
+.auth-back-link:hover { color: #edc56d; }
+.auth-callback { text-align: center; }
+.auth-callback > .brand { margin-bottom: 18px; }
+.auth-callback > p:last-of-type {
+  color: #b5b3ac;
+  font-size: 13px;
+}
+.submission-page {
+  min-height: calc(100dvh - 145px);
+  max-width: 860px;
+  margin: 0 auto;
+  padding: clamp(44px, 8vw, 88px) 24px;
+}
+.submission-page h1 { color: #263b61; }
+.submission-description { color: #626967; }
+.submission-placeholder {
+  padding: 30px;
+  border: 1px dashed #b8ad98;
+  background: rgba(255,255,255,.35);
+}
+.submission-placeholder span {
+  color: #88867c;
+  font: 9px 'DM Mono', monospace;
+  letter-spacing: .13em;
+}
+.submission-placeholder p {
+  max-width: 560px;
+  margin: 12px 0 0;
+  color: #626967;
+  font-size: 13px;
+  line-height: 1.7;
+}
+@media (max-width: 760px) {
+  .site-header .header-inner {
+    height: 64px;
+    padding: 0 12px;
+    gap: 8px;
+  }
+  .site-header .brand-name { font-size: 14px; }
+  .header-actions { gap: 6px; }
+  .header-auth-button,
+  .header-submit-button {
+    min-height: 34px;
+    padding-inline: 8px;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+  .submission-page { padding-inline: 18px; }
+  .submission-placeholder { padding: 21px; }
+}

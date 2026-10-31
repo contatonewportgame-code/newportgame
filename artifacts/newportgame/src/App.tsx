@@ -1,8 +1,17 @@
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
+import {
+  AuthenticateWithRedirectCallback,
+  ClerkProvider,
+  useAuth,
+  useClerk,
+} from '@clerk/react';
+import { publishableKeyFromHost } from '@clerk/react/internal';
+import { useSignIn } from '@clerk/react/legacy';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { toast } from '@/hooks/use-toast';
 import NotFound from '@/pages/not-found';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Sparkles } from 'lucide-react';
 import kujakuCover from './assets/kujaku-ou-cover.png';
@@ -22,6 +31,16 @@ import {
 } from 'wouter';
 
 const queryClient = new QueryClient();
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+const clerkPublishableKey = publishableKeyFromHost(
+  window.location.hostname,
+  import.meta.env.VITE_CLERK_PUBLISHABLE_KEY,
+);
+const clerkProxyUrl = import.meta.env.VITE_CLERK_PROXY_URL;
+
+if (!clerkPublishableKey) {
+  throw new Error('Missing VITE_CLERK_PUBLISHABLE_KEY for Google sign-in.');
+}
 
 type Project = { slug: string; title: string; platform: string; kind: string; status: string; summary: string; subtitle: string; accent: string; monogram: string; translator: string; authorNotes?: string; };
 const projects: Project[] = [
@@ -96,8 +115,179 @@ function Brand() {
   return <Link href="/" className="brand" aria-label="NEWPORTGAME, início"><span className="brand-name">NEWPORTGAME</span></Link>;
 }
 
+function HeaderActions() {
+  const { isLoaded, isSignedIn } = useAuth();
+  const { signOut } = useClerk();
+  const [, setLocation] = useLocation();
+
+  const openSubmissionPage = () => {
+    if (!isLoaded || !isSignedIn) {
+      toast({
+        title: 'Entre primeiro',
+        description: 'Faça login com sua conta Google para enviar uma tradução.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setLocation('/enviar-traducao');
+  };
+
+  return (
+    <nav className="header-actions" aria-label="Acesso e contribuição">
+      {isLoaded && isSignedIn ? (
+        <button
+          className="header-auth-button"
+          type="button"
+          onClick={() => void signOut({ redirectUrl: basePath || '/' })}
+        >
+          Sair
+        </button>
+      ) : (
+        <Link className="header-auth-button" href="/sign-in">
+          Entrar
+        </Link>
+      )}
+      <button
+        className="header-submit-button"
+        type="button"
+        onClick={openSubmissionPage}
+      >
+        Enviar tradução
+      </button>
+    </nav>
+  );
+}
+
 function Header() {
-  return <header className="site-header"><div className="header-inner"><Brand /></div></header>;
+  return (
+    <header className="site-header">
+      <div className="header-inner">
+        <Brand />
+        <HeaderActions />
+      </div>
+    </header>
+  );
+}
+
+function GoogleSignInPage() {
+  const { isLoaded: isAuthLoaded, isSignedIn } = useAuth();
+  const { isLoaded: isSignInLoaded, signIn } = useSignIn();
+  const [, setLocation] = useLocation();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (isAuthLoaded && isSignedIn) {
+      setLocation('/enviar-traducao');
+    }
+  }, [isAuthLoaded, isSignedIn, setLocation]);
+
+  const signInWithGoogle = async () => {
+    if (!isSignInLoaded || !signIn) return;
+
+    setIsSubmitting(true);
+    setError('');
+    try {
+      await signIn.authenticateWithRedirect({
+        strategy: 'oauth_google',
+        redirectUrl: `${basePath}/sign-in/sso-callback`,
+        redirectUrlComplete: `${basePath}/enviar-traducao`,
+      });
+    } catch {
+      setError('Não foi possível iniciar o login. Verifique se o Google está ativado nas configurações de Auth.');
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <main className="auth-page">
+      <section className="auth-card" aria-labelledby="auth-title">
+        <Brand />
+        <p className="auth-kicker">ÁREA DE CONTRIBUIÇÃO</p>
+        <h1 id="auth-title">Entre para enviar uma tradução</h1>
+        <p className="auth-description">
+          O catálogo e os downloads são públicos. Para adicionar um jogo e
+          compartilhar uma tradução, entre com sua conta Google.
+        </p>
+        <button
+          className="google-sign-in-button"
+          type="button"
+          onClick={() => void signInWithGoogle()}
+          disabled={!isSignInLoaded || isSubmitting}
+        >
+          <GoogleMark />
+          {isSubmitting ? 'Conectando ao Google…' : 'Continuar com Google'}
+        </button>
+        {error && <p className="auth-error" role="alert">{error}</p>}
+        <Link className="auth-back-link" href="/">
+          Voltar ao catálogo
+        </Link>
+      </section>
+    </main>
+  );
+}
+
+function GoogleMark() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 48 48" className="google-mark">
+      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5Z" />
+      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.27 5.47-4.79 7.16l7.73 6c4.51-4.16 7.1-10.28 7.1-17.63Z" />
+      <path fill="#FBBC05" d="M10.53 28.59A14.4 14.4 0 0 1 9.75 24c0-1.59.27-3.13.76-4.59l-7.98-6.19A23.9 23.9 0 0 0 0 24c0 3.87.93 7.54 2.56 10.78l7.97-6.19Z" />
+      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.9-5.82l-7.73-6c-2.14 1.44-4.89 2.3-8.17 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48Z" />
+    </svg>
+  );
+}
+
+function GoogleAuthCallback() {
+  return (
+    <main className="auth-page">
+      <section className="auth-card auth-callback" aria-live="polite">
+        <Brand />
+        <p>Concluindo login com Google…</p>
+        <AuthenticateWithRedirectCallback />
+      </section>
+    </main>
+  );
+}
+
+function ProtectedSubmissionPage() {
+  const { isLoaded, isSignedIn } = useAuth();
+  const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    if (isLoaded && !isSignedIn) {
+      toast({
+        title: 'Login necessário',
+        description: 'Entre com sua conta Google antes de acessar o envio de traduções.',
+        variant: 'destructive',
+      });
+      setLocation('/');
+    }
+  }, [isLoaded, isSignedIn, setLocation]);
+
+  if (!isLoaded || !isSignedIn) return null;
+
+  return (
+    <>
+      <Header />
+      <main className="submission-page">
+        <p className="auth-kicker">ÁREA DE CONTRIBUIÇÃO</p>
+        <h1>Enviar tradução</h1>
+        <p className="submission-description">
+          Esta página é reservada para quem entrou com uma conta Google.
+        </p>
+        <section className="submission-placeholder" aria-label="Formulário em preparação">
+          <span>FORMULÁRIO EM PREPARAÇÃO</span>
+          <p>Em breve você poderá cadastrar um jogo e compartilhar os materiais da tradução.</p>
+        </section>
+        <Link className="auth-back-link" href="/">
+          Voltar ao catálogo
+        </Link>
+      </main>
+      <Footer />
+    </>
+  );
 }
 
 function Artwork({ project, large = false }: { project: Project; large?: boolean }) {
@@ -300,6 +490,9 @@ function Router() {
     <RoutedErrorBoundary>
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/sign-in/sso-callback" component={GoogleAuthCallback} />
+        <Route path="/sign-in/*?" component={GoogleSignInPage} />
+        <Route path="/enviar-traducao" component={ProtectedSubmissionPage} />
         <Route path="/jogos/spellcaster"><Detail slug="spellcaster" /></Route>
         <Route path="/jogos/kujaku-ou"><Detail slug="kujaku-ou" /></Route>
         <Route component={NotFound} />
@@ -314,15 +507,37 @@ function RoutedErrorBoundary({ children }: { children: ReactNode }) {
 }
 
 function App() {
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
-          <Router />
+        <WouterRouter base={basePath}>
+          <ClerkProviderWithRouter />
         </WouterRouter>
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>
+  );
+}
+
+function ClerkProviderWithRouter() {
+  const [, setLocation] = useLocation();
+
+  const stripBase = (path: string) =>
+    basePath && path.startsWith(basePath)
+      ? path.slice(basePath.length) || '/'
+      : path;
+
+  return (
+    <ClerkProvider
+      publishableKey={clerkPublishableKey}
+      proxyUrl={clerkProxyUrl}
+      signInUrl={`${basePath}/sign-in`}
+      routerPush={(to) => setLocation(stripBase(to))}
+      routerReplace={(to) => setLocation(stripBase(to), { replace: true })}
+    >
+      <Router />
+    </ClerkProvider>
   );
 }
 
