@@ -7,6 +7,12 @@ import NotFound from '@/pages/not-found';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, ShieldCheck, Sparkles } from 'lucide-react';
 import kujakuCover from './assets/kujaku-ou-cover.png';
 import spellcasterCover from './assets/spellcaster-cover.png';
+import spellcasterScreen1 from './assets/spellcaster-gallery/1_1793466650424.png';
+import spellcasterScreen2 from './assets/spellcaster-gallery/2_1793466650425.png';
+import spellcasterScreen3 from './assets/spellcaster-gallery/3_1793466650426.png';
+import spellcasterScreen4 from './assets/spellcaster-gallery/4_1793466650426.png';
+import spellcasterScreen5 from './assets/spellcaster-gallery/5_1793466650427.png';
+import spellcasterScreen6 from './assets/spellcaster-gallery/6_1793466650427.png';
 import {
   Route,
   Switch,
@@ -24,6 +30,38 @@ const projects: Project[] = [
 ];
 
 const spellcasterPatchUrl = 'https://github.com/contatonewportgame-code/spellcaster-sms-ptbr/releases/download/v1.0.0/SpellCaster_PTBR_v1.0_Newportgame.zip';
+
+const spellcasterScreenshots = [
+  { src: spellcasterScreen1, alt: 'Tela de abertura de SpellCaster com os créditos da versão brasileira.' },
+  { src: spellcasterScreen2, alt: 'Kane conversa com Daikak em uma cena de SpellCaster.' },
+  { src: spellcasterScreen3, alt: 'Kane enfrenta um inimigo em uma floresta.' },
+  { src: spellcasterScreen4, alt: 'Menu do grupo com atributos e nomes dos personagens.' },
+  { src: spellcasterScreen5, alt: 'Kuma conversa sobre yakisoba em SpellCaster.' },
+  { src: spellcasterScreen6, alt: 'Menu de itens com uma espada selecionada.' },
+];
+
+function SpellcasterGallery() {
+  return (
+    <section className="game-gallery" aria-labelledby="spellcaster-gallery-title">
+      <div className="game-gallery-heading">
+        <span>CAPTURAS DO JOGO</span>
+        <h2 id="spellcaster-gallery-title">SpellCaster em português</h2>
+      </div>
+      <div className="game-gallery-grid">
+        {spellcasterScreenshots.map((screenshot) => (
+          <figure className="game-gallery-item" key={screenshot.src}>
+            <img
+              src={screenshot.src}
+              alt={screenshot.alt}
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
+        ))}
+      </div>
+    </section>
+  );
+}
 
 function Brand() {
   return <Link href="/" className="brand" aria-label="NEWPORTGAME, início"><span className="brand-name">NEWPORTGAME</span></Link>;
@@ -114,7 +152,7 @@ function Detail({ slug }: { slug: string }) {
   const isSpellcaster = project.slug === 'spellcaster';
   const complete = project.status === 'Completo';
   const related = project.slug === 'kujaku-ou' ? 'SpellCaster' : 'Kujaku Ou';
-  return <><Header /><main className="detail-page"><div className="detail-crumb"><Link href="/">← Catálogo</Link><span>/</span><span>{project.title}</span></div><div className="detail-layout"><div className="detail-visual"><Artwork project={project} large /><div className="visual-note"><span>REGISTRO NEWPORTGAME</span><span>{project.slug === 'kujaku-ou' ? 'CAPA GOLD CARTRIDGE · MARK III / MASTER SYSTEM' : 'CAPA ORIGINAL · SEGA MASTER SYSTEM'}</span></div></div><div className="detail-copy"><div className="eyebrow"><span className="eyebrow-line" /> PROJETO OFICIAL NEWPORTGAME</div><div className={`status-pill detail-status ${complete ? 'is-ready' : 'is-prep'}`}><i />{project.status}</div><h1>{project.title}</h1><p className="detail-lead">{project.slug === 'spellcaster' ? 'Uma tradução oficial Newportgame para PT-BR, completa e pronta para preservar a experiência em português.' : 'Tradução oficial Newportgame e restauração técnica baseadas na versão japonesa.'}</p><div className="detail-facts"><div><span>PLATAFORMA</span><b>{project.platform}</b></div><div><span>TIPO DE PROJETO</span><b>{project.slug === 'spellcaster' ? 'Tradução PT-BR' : 'Tradução + restauração técnica'}</b></div><div><span>RESPONSÁVEL</span><b>Newportgame · projeto oficial</b></div><div><span>CONTEÚDO</span><b>Patches e documentação</b></div></div>
+  return <><Header /><main className="detail-page"><div className="detail-crumb"><Link href="/">← Catálogo</Link><span>/</span><span>{project.title}</span></div><div className="detail-layout"><div className="detail-visual"><Artwork project={project} large /><div className="visual-note"><span>REGISTRO NEWPORTGAME</span><span>{project.slug === 'kujaku-ou' ? 'CAPA GOLD CARTRIDGE · MARK III / MASTER SYSTEM' : 'CAPA ORIGINAL · SEGA MASTER SYSTEM'}</span></div>{isSpellcaster && <SpellcasterGallery />}</div><div className="detail-copy"><div className="eyebrow"><span className="eyebrow-line" /> PROJETO OFICIAL NEWPORTGAME</div><div className={`status-pill detail-status ${complete ? 'is-ready' : 'is-prep'}`}><i />{project.status}</div><h1>{project.title}</h1><p className="detail-lead">{project.slug === 'spellcaster' ? 'Uma tradução oficial Newportgame para PT-BR, completa e pronta para preservar a experiência em português.' : 'Tradução oficial Newportgame e restauração técnica baseadas na versão japonesa.'}</p><div className="detail-facts"><div><span>PLATAFORMA</span><b>{project.platform}</b></div><div><span>TIPO DE PROJETO</span><b>{project.slug === 'spellcaster' ? 'Tradução PT-BR' : 'Tradução + restauração técnica'}</b></div><div><span>RESPONSÁVEL</span><b>Newportgame · projeto oficial</b></div><div><span>CONTEÚDO</span><b>Patches e documentação</b></div></div>
       <div className={`availability ${complete ? 'available' : 'pending'}`}><div className="availability-icon">{complete ? <Check size={17} /> : <Sparkles size={17} />}</div><div><b>{complete ? 'Materiais do projeto' : 'Materiais ainda indisponíveis'}</b><p>{isSpellcaster ? 'Assista ao vídeo sobre a tradução e baixe o patch abaixo.' : 'Nenhum link de patch ou documentação foi fornecido nesta apresentação.'}</p></div></div>
       <div className="rom-policy"><ShieldCheck size={18} /><p><b>Preservação responsável.</b> ROMs comerciais completas não são distribuídas. O acervo disponibiliza apenas patches e documentação.</p></div>
       {isSpellcaster && <section className="translation-video" aria-labelledby="spellcaster-video-heading">

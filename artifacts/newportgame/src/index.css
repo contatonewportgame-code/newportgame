@@ -810,3 +810,52 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible { 
   .cover-link { width: min(43vw, 292px); }
 }
 @media (max-width: 390px) { .cover-caption { flex-wrap: wrap; gap: 1px 5px; white-space: normal; } }
+
+.game-gallery {
+  width: min(100%, 410px);
+  margin: 22px auto 0;
+}
+.game-gallery-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 11px;
+}
+.game-gallery-heading > span {
+  color: #aaa79e;
+  font: 8px 'DM Mono', monospace;
+  letter-spacing: .1em;
+}
+.game-gallery-heading h2 {
+  margin: 0;
+  color: #f0eee8;
+  font: 600 13px/1.3 'Space Grotesk', sans-serif;
+  text-align: right;
+}
+.game-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.game-gallery-item {
+  aspect-ratio: 4 / 3;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid #343536;
+  background: #111214;
+}
+.game-gallery-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: pixelated;
+  transition: transform .25s ease;
+}
+.game-gallery-item:hover img { transform: scale(1.035); }
+@media (max-width: 760px) {
+  .game-gallery { margin-top: 18px; }
+  .game-gallery-grid { gap: 7px; }
+}
