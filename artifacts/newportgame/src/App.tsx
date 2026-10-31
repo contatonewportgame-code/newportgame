@@ -17,10 +17,10 @@ import {
 
 const queryClient = new QueryClient();
 
-type Project = { slug: string; title: string; platform: string; kind: string; status: string; summary: string; accent: string; monogram: string; };
+type Project = { slug: string; title: string; platform: string; kind: string; status: string; summary: string; accent: string; monogram: string; officialNewportgameTranslation?: boolean; };
 const projects: Project[] = [
-  { slug: 'spellcaster', title: 'SpellCaster', platform: 'Master System', kind: 'Tradução PT-BR', status: 'Completo', summary: 'Uma tradução oficial Newportgame para redescobrir este clássico no seu idioma.', accent: 'gold', monogram: 'SC' },
-  { slug: 'kujaku-ou', title: 'Kujaku Ou', platform: 'Sega Mark III / Master System', kind: 'Tradução + restauração técnica', status: 'Status não informado', summary: 'Tradução oficial e restauração técnica baseadas na versão japonesa.', accent: 'jade', monogram: '孔雀' },
+  { slug: 'spellcaster', title: 'SpellCaster', platform: 'Master System', kind: 'Tradução PT-BR', status: 'Completo', summary: 'Uma tradução oficial Newportgame para redescobrir este clássico no seu idioma.', accent: 'gold', monogram: 'SC', officialNewportgameTranslation: true },
+  { slug: 'kujaku-ou', title: 'Kujaku Ou', platform: 'Sega Mark III / Master System', kind: 'Tradução + restauração técnica', status: 'Status não informado', summary: 'Tradução oficial e restauração técnica baseadas na versão japonesa.', accent: 'jade', monogram: '孔雀', officialNewportgameTranslation: true },
 ];
 
 function Brand() {
@@ -36,6 +36,11 @@ function Artwork({ project, large = false }: { project: Project; large?: boolean
   return <div className={`artwork artwork-cover ${large ? 'artwork-large' : ''}`}>
     <img src={isSpellcaster ? spellcasterCover : kujakuCover}
       alt={isSpellcaster ? 'Capa original de SpellCaster para Sega Master System' : 'Capa Gold Cartridge de Kujaku Ou para Mark III / Master System'} />
+    {project.officialNewportgameTranslation && <span className="official-seal" role="img" aria-label="Tradução oficial Newportgame" title="Tradução oficial Newportgame">
+      <span className="seal-prefix">TRADUÇÃO</span>
+      <strong>OFICIAL</strong>
+      <span className="seal-brand">NEWPORTGAME</span>
+    </span>}
   </div>;
 }
 
