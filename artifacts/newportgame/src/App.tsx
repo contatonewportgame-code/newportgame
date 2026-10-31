@@ -225,6 +225,21 @@ function Detail({ slug }: { slug: string }) {
                 <span>ZIP · v1.0</span>
               </a>
             )}
+            {isSpellcaster && (
+              <section className="translation-video" aria-labelledby="spellcaster-video-heading">
+                <h2 id="spellcaster-video-heading">Vídeo sobre a tradução</h2>
+                <div className="translation-video-frame">
+                  <iframe
+                    src="https://www.youtube-nocookie.com/embed/Bg4PlKwsWoQ"
+                    title="Vídeo sobre a tradução de SpellCaster"
+                    loading="lazy"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              </section>
+            )}
             <div className="detail-facts">
               <div><span>PLATAFORMA</span><b>{project.platform}</b></div>
               <div><span>TIPO DE PROJETO</span><b>{project.slug === 'spellcaster' ? 'Tradução PT-BR' : 'Tradução + restauração técnica'}</b></div>
@@ -241,21 +256,6 @@ function Detail({ slug }: { slug: string }) {
                   <p>Nenhum link de patch ou documentação foi fornecido nesta apresentação.</p>
                 </div>
               </div>
-            )}
-            {isSpellcaster && (
-              <section className="translation-video" aria-labelledby="spellcaster-video-heading">
-                <h2 id="spellcaster-video-heading">Vídeo sobre a tradução</h2>
-                <div className="translation-video-frame">
-                  <iframe
-                    src="https://www.youtube-nocookie.com/embed/Bg4PlKwsWoQ"
-                    title="Vídeo sobre a tradução de SpellCaster"
-                    loading="lazy"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
-              </section>
             )}
             <div className="detail-actions">
               {!isSpellcaster && (
