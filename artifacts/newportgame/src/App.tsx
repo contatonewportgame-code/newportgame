@@ -190,8 +190,10 @@ function AuthenticatedHeaderActions() {
 function Header() {
   return (
     <header className="site-header">
-      <div className="header-inner">
+      <div className="header-wordmark">
         <Brand />
+      </div>
+      <div className="header-inner">
         <HeaderActions />
       </div>
     </header>

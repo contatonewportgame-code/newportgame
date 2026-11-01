@@ -952,12 +952,35 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible { 
 .detail-download-button { margin-top: 18px; }
 
 /* Public browsing stays open; only the contribution route requires Google sign-in. */
+.site-header .header-wordmark {
+  padding: clamp(14px, 2vw, 26px) clamp(8px, 2vw, 24px) 8px;
+  border-bottom: 1px solid #202123;
+}
+.site-header .header-wordmark .brand {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+.site-header .header-wordmark .brand-name {
+  display: block;
+  width: 100%;
+  color: #c8c8c6;
+  text-align: center;
+  white-space: nowrap;
+  font: 700 clamp(48px, 14vw, 188px)/.84 'Space Grotesk', sans-serif;
+  letter-spacing: -.075em;
+  background: linear-gradient(180deg, #fff 0%, #aaa 20%, #f5f5f1 34%, #777977 49%, #e3e3dc 62%, #777875 78%, #d8d8d1 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 0 rgba(255, 255, 255, .12));
+}
 .site-header .header-inner {
-  height: 76px;
+  min-height: 64px;
   padding: 0 clamp(16px, 4vw, 56px);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 16px;
 }
 .site-header .brand {
@@ -1000,15 +1023,15 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible { 
   color: #f4d28a;
 }
 .header-submit-button {
-  border-color: #d6a546;
-  background: #d6a546;
-  color: #17191b;
+  border-color: #4ade80;
+  background: #4ade80;
+  color: #052e16;
 }
 .header-submit-button:hover,
 .header-submit-button:focus-visible {
-  border-color: #edc56d;
-  background: #edc56d;
-  color: #17191b;
+  border-color: #86efac;
+  background: #86efac;
+  color: #052e16;
 }
 .auth-page {
   min-height: calc(100dvh - 76px);
@@ -1118,12 +1141,18 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible { 
   line-height: 1.7;
 }
 @media (max-width: 760px) {
+  .site-header .header-wordmark {
+    padding: 17px 7px 9px;
+  }
+  .site-header .header-wordmark .brand-name {
+    font-size: clamp(39px, 13.7vw, 62px);
+    letter-spacing: -.08em;
+  }
   .site-header .header-inner {
-    height: 64px;
-    padding: 0 12px;
+    min-height: 56px;
+    padding: 10px 12px;
     gap: 8px;
   }
-  .site-header .brand-name { font-size: 14px; }
   .header-actions { gap: 6px; }
   .header-auth-button,
   .header-submit-button {
