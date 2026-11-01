@@ -32,10 +32,10 @@ import {
 
 const queryClient = new QueryClient();
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
-const clerkPublishableKey = publishableKeyFromHost(
-  window.location.hostname,
-  import.meta.env.VITE_CLERK_PUBLISHABLE_KEY,
-);
+const rawClerkPublishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+const clerkPublishableKey = rawClerkPublishableKey
+  ? publishableKeyFromHost(window.location.hostname, rawClerkPublishableKey)
+  : undefined;
 const clerkProxyUrl = import.meta.env.VITE_CLERK_PROXY_URL;
 
 type Project = { slug: string; title: string; platform: string; kind: string; status: string; summary: string; subtitle: string; accent: string; monogram: string; translator: string; authorNotes?: string; };
