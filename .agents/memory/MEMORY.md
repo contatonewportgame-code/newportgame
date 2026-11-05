@@ -1,0 +1,1 @@
+- [Hospedagem e login](hosting-auth-plan.md) — Newportgame vai ao Vercel primeiro como catálogo público; login Google vem depois com autenticação externa.
